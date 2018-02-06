@@ -1,6 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { LineChart, XAxis, YAxis, CartesianGrid, Line, Tooltip, Legend } from 'recharts';
+import {
+  LineChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Line,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
 
 let RunwayChart = ({ dispatch, width = 800, height = 300 }) => {
   const data = [
@@ -13,9 +22,10 @@ let RunwayChart = ({ dispatch, width = 800, height = 300 }) => {
     { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 }
   ];
   return (
+    <ResponsiveContainer>
     <LineChart
-      width={width}
-      height={height}
+      // width={width}
+      // height={height}
       data={data}
       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
     >
@@ -27,6 +37,7 @@ let RunwayChart = ({ dispatch, width = 800, height = 300 }) => {
       <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
       <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
     </LineChart>
+    </ResponsiveContainer>
   );
 };
 
