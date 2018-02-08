@@ -1,19 +1,18 @@
 import React from 'react';
-import Footer from './Footer';
-import RunwayChart from '../containers/RunwayChart';
-import { ResponsiveContainer } from 'recharts';
+import RunwayChartContainer from '../containers/RunwayChartContainer';
 import './App.css';
+import SidebarContainer from "../containers/SidebarContainer";
+
+const sidebarStyles = {
+  sidebar: {
+    width: '15%'
+  }
+};
 
 const App = () => (
   <div className="app">
-    <div className="row">
-      <div className="column left">
-        <Footer />
-      </div>
-      <div className="column right">
-        <RunwayChart />
-      </div>
-    </div>
+    <SidebarContainer/>
+    <RunwayChartContainer />
   </div>
 );
 

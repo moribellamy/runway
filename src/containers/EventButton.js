@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 import { resizeRunwayChart } from '../actions';
 import Button from '../components/Button';
 
+// I dont use this but good example...
+
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps
 });
