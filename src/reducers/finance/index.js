@@ -1,7 +1,7 @@
 // @flow
+// TODO: later.js and UI elements therein!
 
 import moment from 'moment';
-import Expense from './Expense';
 import type { Action } from '../../actions';
 
 function initData(): Array<Point> {
@@ -11,7 +11,7 @@ function initData(): Array<Point> {
   let end = now.clone().add(100, 'years');
   let data: Array<Point> = [];
   while (now < end) {
-    data.push(new Point(now.format('MMMM Do YYYY'), 42));
+    data.push(new Point(now, 0));
     now = now.add(1, 'month');
   }
   return data;
@@ -23,9 +23,11 @@ function initData(): Array<Point> {
 class Point {
   name: string; // X axis
   amount: number; // Y axis
+  timestamp: moment;
 
-  constructor(name: string, amount: number) {
-    this.name = name;
+  constructor(timestamp:moment, amount: number) {
+    this.timestamp = timestamp;
+    this.name = timestamp.format('MMMM Do YYYY');
     this.amount = amount;
   }
 }
@@ -61,14 +63,52 @@ export class FinanceState {
   }
 }
 
+type Unit = 'year' | 'month' | 'day' | 'week';
+
+class Expense {
+  amount: number;
+  period: number;
+  unit: Unit;
+
+  /**
+   * @param amount The amount (in currency) of the expense.
+   * @param period How many times this expense occurs in one <unit>.
+   * @param unit A moment.js unit of time, like 'day' or 'week'.
+   */
+  constructor(amount: number, period: number, unit: Unit) {
+    this.amount = amount;
+    this.period = period;
+    this.unit = unit;
+  }
+}
+
 const initialState = new FinanceState(initData(), new Asset('checking', 0, 0), [], []);
+
+function calculate(
+  oldPoints: Array<Point>,
+  givenChecking: Asset,
+  givenAssets: Array<Asset>,
+  givenExpenses: Array<Expense>
+): Array<Point> {
+
+  for (let i = 1; i < oldPoints.length; i++) {
+    let last: Point = oldPoints[i - 1];
+    let curr: Point = oldPoints[i];
+  }
+
+  oldPoints[0].amount = givenChecking.amount;
+  return oldPoints;
+}
 
 const finance = (state: FinanceState = initialState, action: Action): FinanceState => {
   switch (action.type) {
     case 'CALCULATE':
-      let points = [...state.points];
-      points[0].amount += 1;
-      return new FinanceState(points, state.checking, state.assets, state.expenses);
+      return new FinanceState(
+        calculate(state.points, state.checking, state.assets, state.expenses),
+        state.checking,
+        state.assets,
+        state.expenses
+      );
     case 'SET_CHECKING':
       return new FinanceState(
         state.points,

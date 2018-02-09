@@ -2,7 +2,7 @@
 
 import { combineReducers } from 'redux';
 import layout from './layout';
-import finance from './finance/index';
+import finance from './finance';
 
 /**
  * The main reducer, per the react-redux development pattern.
