@@ -1,3 +1,5 @@
+// @flow
+
 import { combineReducers } from 'redux';
 import layout from './layout';
 import finance from './finance/index';
@@ -7,7 +9,7 @@ import finance from './finance/index';
  *
  * Documentation for each sub-reducer is available in the corresponding JS file.
  */
-const reducer = combineReducers({
+const reducers = {
   /**
    * Basic state on the UI/UX.
    */
@@ -16,6 +18,11 @@ const reducer = combineReducers({
    * Any data related to the actual computation of runway.
    */
   finance
-});
+};
 
-export default reducer;
+export type Reducers = typeof reducers;
+
+export default combineReducers(reducers);
+
+type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
+export type State = $ObjMap<Reducers, $ExtractFunctionReturn>;

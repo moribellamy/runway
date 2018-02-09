@@ -1,22 +1,31 @@
+// @flow
+
 import React from 'react';
 import { connect } from 'react-redux';
 import Sidebar from '../components/Sidebar';
-import {setChecking, show, calculate} from "../actions";
+import * as actions from '../actions';
+import type { State } from '../reducers';
 
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps,
-  assets: state.finance.assets
-});
+const mapStateToProps = (state: State, ownProps) => {
+  return {
+    ...ownProps,
+    assets: state.finance.assets,
+    checking: state.finance.checking
+  };
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  setChecking: (amount) => {
-    dispatch(setChecking(amount));
+  setChecking: amount => {
+    dispatch(actions.setChecking(amount));
   },
-  show: (content) => {
-    dispatch(show(content));
+  showRunwayChart: () => {
+    dispatch(actions.showRunwayChart());
+  },
+  showRunwayTable: () => {
+    dispatch(actions.showRunwayTable());
   },
   calculate: () => {
-    dispatch(calculate());
+    dispatch(actions.calculate());
   }
 });
 

@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "enzyme": "^3.3.0",
+    "flow-bin": "^0.65.0",
     "react-addons-test-utils": "^15.6.2",
     "react-scripts": "^1.1.0"
   },
@@ -21,6 +22,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "flow": "flow"
   }
 }

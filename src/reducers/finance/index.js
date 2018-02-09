@@ -1,58 +1,81 @@
-import moment from 'moment';
+// @flow
 
-const initData = () => {
+import moment from 'moment';
+import Expense from './Expense';
+import type { Action } from '../../actions';
+
+function initData(): Array<Point> {
   let now = moment()
     .startOf('month')
     .startOf('day');
   let end = now.clone().add(100, 'years');
-  let data = [];
+  let data: Array<Point> = [];
   while (now < end) {
-    data.push({
-      name: now.format('MMMM Do YYYY'),
-      amount: 42
-    });
+    data.push(new Point(now.format('MMMM Do YYYY'), 42));
     now = now.add(1, 'month');
   }
   return data;
-};
+}
 
-const initialState = {
-  /**
-   * The list of all the data we have crunched so that we can show it to the user. This
-   * is the very same list we will pass in to the "data" property of our Recharts component.
-   * The format is a list of dicts, each dict having:
-   * - "name" which corresponds to the X-axis.
-   * - "amount" which corresponds to the Y axis.
-   */
-  data: initData(),
-  /**
-   * Things the user owns.
-   */
-  assets: {
-    /**
-     * The user's "checking" account. Without loss of generality, this can be thought of their
-     * store of liquid value.
-     */
-    checking: { amount: 0 }
-  },
-  /**
-   * Obligations of the user.
-   */
-  expenses: {
-    // This is a map from numeric IDs to Expense objects.
+/**
+ * A single member of the timeseries we plot to the user.
+ */
+class Point {
+  name: string; // X axis
+  amount: number; // Y axis
+
+  constructor(name: string, amount: number) {
+    this.name = name;
+    this.amount = amount;
   }
-};
+}
 
-const finance = (state = initialState, action) => {
+class Asset {
+  name: string;
+  amount: number;
+  interest: number;
+
+  constructor(name: string, amount: number, interest: number) {
+    this.name = name;
+    this.amount = amount;
+    this.interest = interest;
+  }
+}
+
+export class FinanceState {
+  points: Array<Point>;
+  checking: Asset;
+  assets: Array<Asset>;
+  expenses: Array<Expense>;
+
+  constructor(
+    points: Array<Point>,
+    checking: Asset,
+    assets: Array<Asset>,
+    expenses: Array<Expense>
+  ) {
+    this.points = points;
+    this.checking = checking;
+    this.assets = assets;
+    this.expenses = expenses;
+  }
+}
+
+const initialState = new FinanceState(initData(), new Asset('checking', 0, 0), [], []);
+
+const finance = (state: FinanceState = initialState, action: Action): FinanceState => {
   switch (action.type) {
     case 'CALCULATE':
-      let data = Object.assign({}, state.data);
-      data[0].amount += 1;
-      return { ...state, data };
+      let points = [...state.points];
+      points[0].amount += 1;
+      return new FinanceState(points, state.checking, state.assets, state.expenses);
     case 'SET_CHECKING':
-      return { ...state, checking: {name: action.name, amount: action.amount }};
-    case 'SET_EXPENSE':
-      return { ...state };
+      return new FinanceState(
+        state.points,
+        new Asset('checking', action.amount, 0),
+        state.assets,
+        state.expenses
+      );
     default:
       return state;
   }
