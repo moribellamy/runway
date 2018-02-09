@@ -1,18 +1,13 @@
 import React from 'react';
-import RunwayChartContainer from '../containers/RunwayChartContainer';
+import MainContentContainer from '../containers/MainContentContainer';
 import './App.css';
-import SidebarContainer from "../containers/SidebarContainer";
-
-const sidebarStyles = {
-  sidebar: {
-    width: '15%'
-  }
-};
+import SidebarContainer from '../containers/SidebarContainer';
+import MainContent from './MainContent';
 
 const App = () => (
-  <div className="app">
+  <div id="app">
     <SidebarContainer/>
-    <RunwayChartContainer />
+    <MainContentContainer />
   </div>
 );
 

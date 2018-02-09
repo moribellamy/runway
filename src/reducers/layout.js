@@ -1,7 +1,9 @@
 const layout = (state = {}, action) => {
   switch (action.type) {
-    case 'RESIZE_RUNWAY_CHART':
-      return { ...state, runwayChartWidth: action.width, runwayChartHeight: action.height };
+    case 'SHOW_RUNWAY_TABLE':
+      return { ...state, show: 'RUNWAY_TABLE' };
+    case 'SHOW_RUNWAY_CHART':
+      return { ...state, show: 'RUNWAY_CHART' };
     default:
       return state;
   }

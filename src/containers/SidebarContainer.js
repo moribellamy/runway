@@ -1,16 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Sidebar from '../components/Sidebar';
-import {addLiquidAsset} from "../actions";
+import {setChecking, show, calculate} from "../actions";
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
-  assets: state.assets
+  assets: state.finance.assets
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  addAsset: () => {
-    dispatch(addLiquidAsset('foo', 500));
+  setChecking: (amount) => {
+    dispatch(setChecking(amount));
+  },
+  show: (content) => {
+    dispatch(show(content));
+  },
+  calculate: () => {
+    dispatch(calculate());
   }
 });
 

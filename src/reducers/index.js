@@ -1,12 +1,21 @@
 import { combineReducers } from 'redux';
 import layout from './layout';
-import runwaychart from './runwaychart';
-import assets from './assets'
+import finance from './finance/index';
 
+/**
+ * The main reducer, per the react-redux development pattern.
+ *
+ * Documentation for each sub-reducer is available in the corresponding JS file.
+ */
 const reducer = combineReducers({
+  /**
+   * Basic state on the UI/UX.
+   */
   layout,
-  runwaychart,
-  assets
+  /**
+   * Any data related to the actual computation of runway.
+   */
+  finance
 });
 
 export default reducer;
