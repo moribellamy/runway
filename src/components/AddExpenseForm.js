@@ -2,56 +2,60 @@
 
 import React from 'react';
 import { Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form';
+import { Expense } from '../reducers/finance';
+import later from 'later';
 
-const statusOptions = [
-  {
-    label: 'Single',
-    value: 'single'
-  },
-  {
-    label: 'In a Relationship',
-    value: 'relationship'
-  },
-  {
-    label: "It's Complicated",
-    value: 'complicated'
-  }
-];
+type Args = {
+  addExpense: Expense => void
+};
 
-function AddExpenseForm() {
+function errorValidator({name, amount, schedule, interest, interestSchedule}) {
+  let retval = {};
+
+  if (name && name.trim() === '') retval.name = 'A name is required.';
+  if (isNaN(amount)) retval.amount = 'Amount must be numeric';
+  let x = schedule && later.parse.text(schedule);
+  if (isNaN(interest)) retval.interest = 'Interest must be numeric';
+  let y = interestSchedule && later.parse.text(interestSchedule);
+  let z = 3;
+
+  return retval;
+}
+
+function AddExpenseForm({ addExpense }: Args) {
+  // const decimalRegex = /\d+.\d+|[.]\d+|\d+/;
+  const decimalRegex = '[0-9]+[.][0-9]+|[.][0-9]+|[0-9]+';
   return (
     <div>
-      <Form onSubmit={submittedValues => this.setState({ submittedValues })}>
+      <Form
+        validateError={errorValidator}
+        onSubmit={({ name, amount, schedule, interest, interestSchedule }) => {
+          let expense = new Expense(name, amount, schedule, interest, interestSchedule);
+          addExpense(expense);
+        }}
+        onSubmitFailure={(errors, formApi, onSubmitError) => {
+          console.log({ errors, onSubmitError });
+        }}
+      >
         {formApi => (
-          <form onSubmit={formApi.submitForm} id="form2">
-            <label htmlFor="firstName">First name</label>
-            <Text field="firstName" id="firstName" />
-            <label htmlFor="lastName">Last name</label>
-            <Text field="lastName" id="lastName" />
-            <RadioGroup field="gender">
-              {group => (
-                <div>
-                  <label htmlFor="male" className="mr-2">
-                    Male
-                  </label>
-                  <Radio group={group} value="male" id="male" className="mr-3 d-inline-block" />
-                  <label htmlFor="female" className="mr-2">
-                    Female
-                  </label>
-                  <Radio group={group} value="female" id="female" className="d-inline-block" />
-                </div>
-              )}
-            </RadioGroup>
-            <label htmlFor="bio">Bio</label>
-            <TextArea field="bio" id="bio" />
-            <label htmlFor="authorize" className="mr-2">
-              Authorize
-            </label>
-            <Checkbox field="authorize" id="authorize" className="d-inline-block" />
-            <label htmlFor="status" className="d-block">
-              Relationship status
-            </label>
-            <Select field="status" id="status" options={statusOptions} />
+          <form onSubmit={formApi.submitForm} id="addExpenseForm">
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <Text field="name" id="name" className="form-control" />
+              <label htmlFor="amount">Amount</label>
+              <Text field="amount" id="amount" className="form-control" pattern={decimalRegex} />
+              <label htmlFor="schedule">Schedule</label>
+              <Text field="schedule" id="schedule" className="form-control" />
+              <label htmlFor="interest">Interest</label>
+              <Text
+                field="interest"
+                id="interest"
+                className="form-control"
+                pattern={decimalRegex}
+              />
+              <label htmlFor="interestSchedule">Interest Schedule</label>
+              <Text field="interestSchedule" id="interestSchedule" className="form-control" />
+            </div>
             <button type="submit" className="mb-4 btn btn-primary">
               Submit
             </button>

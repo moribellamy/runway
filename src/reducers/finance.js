@@ -2,7 +2,7 @@
 // TODO: later.js and UI elements therein!
 
 import moment from 'moment';
-import type { Action } from '../../actions';
+import type { Action } from '../actions';
 
 function initData(): Array<Point> {
   let now = moment()
@@ -66,8 +66,8 @@ export class FinanceState {
 type Unit = 'year' | 'month' | 'day' | 'week';
 
 export class Expense {
-  amount: number;
   name: string;
+  amount: number;
   schedule: string;
   interest: number;
   interestSchedule: string;
@@ -131,11 +131,11 @@ const finance = (state: FinanceState = initialState, action: Action): FinanceSta
       return new FinanceState(state.points, state.checking, state.assets, [
         ...state.expenses,
         new Expense(
-          action.name,
-          action.amount,
-          action.schedule,
-          action.interest,
-          action.interestSchedule
+          action.expense.name,
+          action.expense.amount,
+          action.expense.schedule,
+          action.expense.interest,
+          action.expense.interestSchedule
         )
       ]);
     default:
