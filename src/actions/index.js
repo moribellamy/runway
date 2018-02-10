@@ -13,12 +13,30 @@ export function showRunwayChart(): ShowRunwayChart {
 
 export type ShowRunwayTable = { type: 'SHOW_RUNWAY_TABLE' };
 export function showRunwayTable(): ShowRunwayTable {
-  return {type: 'SHOW_RUNWAY_TABLE'};
+  return { type: 'SHOW_RUNWAY_TABLE' };
 }
 
 export type Calculate = { type: 'CALCULATE' };
 export function calculate(): Calculate {
-  return {type: 'CALCULATE'};
+  return { type: 'CALCULATE' };
 }
 
-export type Action = SetChecking | ShowRunwayChart | ShowRunwayTable | Calculate;
+export type AddExpense = {
+  type: 'ADD_EXPENSE',
+  name: string,
+  amount: number,
+  schedule: string,
+  interest: number,
+  interestSchedule: string
+};
+export function addExpense(
+  name: string,
+  amount: number,
+  schedule: string,
+  interest: number,
+  interestSchedule: string
+): AddExpense {
+  return { type: 'ADD_EXPENSE', name, amount, schedule, interest, interestSchedule };
+}
+
+export type Action = SetChecking | ShowRunwayChart | ShowRunwayTable | Calculate | AddExpense;

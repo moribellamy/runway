@@ -2,19 +2,18 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import Sidebar from '../components/Sidebar';
 import * as actions from '../actions';
 import type { State } from '../reducers';
+import Sidebar from '../components/Sidebar';
 
-const mapStateToProps = (state: State, ownProps) => {
+const mapStateToProps = (state: State) => {
   return {
-    ...ownProps,
     assets: state.finance.assets,
     checking: state.finance.checking
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   setChecking: amount => {
     dispatch(actions.setChecking(amount));
   },
@@ -26,9 +25,16 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   calculate: () => {
     dispatch(actions.calculate());
+  },
+  addExpense: (
+    name: string,
+    amount: number,
+    schedule: string,
+    interest: number,
+    interestSchedule: string
+  ) => {
+    dispatch(actions.addExpense(name, amount, schedule, interest, interestSchedule));
   }
 });
 
-let SidebarContainer = connect(mapStateToProps, mapDispatchToProps)(Sidebar);
-
-export default SidebarContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

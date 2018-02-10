@@ -1,13 +1,16 @@
+// @flow
+
 import React from 'react';
 import MainContentContainer from '../containers/MainContentContainer';
-import './App.css';
 import SidebarContainer from '../containers/SidebarContainer';
-import MainContent from './MainContent';
+import './App.css';
+import AddExpenseFormContainer from "../containers/AddExpenseFormContainer";
 
 const App = () => (
   <div id="app">
-    <SidebarContainer/>
-    <MainContentContainer />
+    <SidebarContainer />
+    {/*<MainContentContainer />*/}
+    <AddExpenseFormContainer />
   </div>
 );
 

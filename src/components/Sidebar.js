@@ -1,8 +1,26 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { Asset } from '../reducers/finance';
 import './Sidebar.css';
 
-const Sidebar = ({ assets, checking, setChecking, showRunwayTable, showRunwayChart, calculate }) => {
+type ArgTypes = {
+  assets: Array<Asset>,
+  checking: Asset,
+  setChecking: any => void,
+  showRunwayTable: () => void,
+  showRunwayChart: () => void,
+  calculate: () => void
+};
+
+function Sidebar({
+  assets,
+  checking,
+  setChecking,
+  showRunwayTable,
+  showRunwayChart,
+  calculate
+}: ArgTypes) {
   return (
     <nav id="sidebar">
       <div className="container">
@@ -25,13 +43,13 @@ const Sidebar = ({ assets, checking, setChecking, showRunwayTable, showRunwayCha
           show chart
         </button>
         <br />
-        <button className="btn btn-info top-margin" onClick={calculate}>
+        <button className="btn btn-info top-margin" onClick={calculate()}>
           calculate
         </button>
       </div>
       {JSON.stringify(assets)}
     </nav>
   );
-};
+}
 
 export default Sidebar;

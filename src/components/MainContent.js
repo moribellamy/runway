@@ -1,14 +1,19 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
-import RunwayChart from "./RunwayChart";
-import RunwayChartContainer from "../containers/RunwayChartContainer";
+import { LayoutState } from '../reducers/layout';
+import { Point } from '../reducers/finance';
+import RunwayChartContainer from '../containers/RunwayChartContainer';
 
-const MainContent = ({ layout, data }) => {
+type Args = { layout: LayoutState, data: Array<Point> };
+
+const MainContent = ({ layout, data }: Args) => {
   switch (layout.show) {
     case 'RUNWAY_TABLE':
-      return (<div>{JSON.stringify(data)}</div>);
+      return <div>{JSON.stringify(data)}</div>;
     default:
-      return (<RunwayChartContainer/>)
+      return <RunwayChartContainer />;
   }
 };
 

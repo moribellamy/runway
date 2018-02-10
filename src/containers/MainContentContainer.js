@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import MainContent from '../components/MainContent';
 import type { State } from '../reducers';
+import MainContent from '../components/MainContent';
 
 const mapStateToProps = (state: State, ownProps) => ({
   ...ownProps,
@@ -11,8 +11,6 @@ const mapStateToProps = (state: State, ownProps) => ({
   data: state.finance.points
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({});
+const mapDispatchToProps = dispatch => ({});
 
-let MainContentContainer = connect(mapStateToProps, mapDispatchToProps)(MainContent);
-
-export default MainContentContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(MainContent);

@@ -20,19 +20,19 @@ function initData(): Array<Point> {
 /**
  * A single member of the timeseries we plot to the user.
  */
-class Point {
+export class Point {
   name: string; // X axis
   amount: number; // Y axis
   timestamp: moment;
 
-  constructor(timestamp:moment, amount: number) {
+  constructor(timestamp: moment, amount: number) {
     this.timestamp = timestamp;
     this.name = timestamp.format('MMMM Do YYYY');
     this.amount = amount;
   }
 }
 
-class Asset {
+export class Asset {
   name: string;
   amount: number;
   interest: number;
@@ -65,20 +65,32 @@ export class FinanceState {
 
 type Unit = 'year' | 'month' | 'day' | 'week';
 
-class Expense {
+export class Expense {
   amount: number;
-  period: number;
-  unit: Unit;
+  name: string;
+  schedule: string;
+  interest: number;
+  interestSchedule: string;
 
   /**
+   * @param name Human friendly name, e.g. "rent" or "groceries".
    * @param amount The amount (in currency) of the expense.
-   * @param period How many times this expense occurs in one <unit>.
-   * @param unit A moment.js unit of time, like 'day' or 'week'.
+   * @param schedule A later.js schedule for how often the expense occurs.
+   * @param interest A multiplier representing periodic change, e.g. 1.03 = 3%.
+   * @param interestSchedule How often interest compounds, in later.js.
    */
-  constructor(amount: number, period: number, unit: Unit) {
+  constructor(
+    name: string,
+    amount: number,
+    schedule: string,
+    interest: number,
+    interestSchedule: string
+  ) {
+    this.name = name;
     this.amount = amount;
-    this.period = period;
-    this.unit = unit;
+    this.schedule = schedule;
+    this.interest = interest;
+    this.interestSchedule = interestSchedule;
   }
 }
 
@@ -90,7 +102,6 @@ function calculate(
   givenAssets: Array<Asset>,
   givenExpenses: Array<Expense>
 ): Array<Point> {
-
   for (let i = 1; i < oldPoints.length; i++) {
     let last: Point = oldPoints[i - 1];
     let curr: Point = oldPoints[i];
@@ -116,6 +127,17 @@ const finance = (state: FinanceState = initialState, action: Action): FinanceSta
         state.assets,
         state.expenses
       );
+    case 'ADD_EXPENSE':
+      return new FinanceState(state.points, state.checking, state.assets, [
+        ...state.expenses,
+        new Expense(
+          action.name,
+          action.amount,
+          action.schedule,
+          action.interest,
+          action.interestSchedule
+        )
+      ]);
     default:
       return state;
   }
