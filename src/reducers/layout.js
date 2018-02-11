@@ -1,8 +1,10 @@
 // @flow
 
+import React from 'react';
 import type { Action } from '../actions';
 
-type showType = 'RUNWAY_TABLE' | 'RUNWAY_CHART';
+// TODO: DRY with actions.js SHOW_*.
+export type showType = 'RUNWAY_TABLE' | 'RUNWAY_CHART' | 'ADD_EXPENSE_MODAL';
 
 export class LayoutState {
   show: showType;
@@ -12,7 +14,7 @@ export class LayoutState {
   }
 }
 
-const initialState = new LayoutState('RUNWAY_TABLE');
+const initialState = new LayoutState('RUNWAY_CHART');
 
 const layout = (state: LayoutState = initialState, action: Action): LayoutState => {
   switch (action.type) {
@@ -20,6 +22,8 @@ const layout = (state: LayoutState = initialState, action: Action): LayoutState 
       return new LayoutState('RUNWAY_TABLE');
     case 'SHOW_RUNWAY_CHART':
       return new LayoutState('RUNWAY_CHART');
+    case 'SHOW_ADD_EXPENSE_MODAL':
+      return new LayoutState('ADD_EXPENSE_MODAL');
     default:
       return state;
   }

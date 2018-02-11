@@ -13,7 +13,6 @@
     "later": "github:RickCarlino/later",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
-    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-form": "^2.16.2",

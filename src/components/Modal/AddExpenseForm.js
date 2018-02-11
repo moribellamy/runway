@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react';
-import { Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form';
-import { Expense } from '../reducers/finance';
+import { StyledText, Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form';
+import { Expense } from '../../reducers/finance';
 import later from 'later';
 import _ from 'lodash';
 
@@ -41,19 +41,21 @@ function errorValidator({ name, amount, schedule, interest, interestSchedule }) 
   };
 }
 
-function AddExpenseForm({ addExpense }: Args) {
-  function maybeError(formApi, fieldName) {
-    let msg = formApi.errors[fieldName];
-    if (!_.isEmpty(msg)) {
-      return <small className="form-text text-muted">{msg}</small>;
-    }
-    return <div />;
-  }
+// TODO this is ugly but leaving it out causes the form elements to jump around.
+function successValidator ( values, errors ) {
+  let retval = {};
+  Object.keys(errors).forEach(key => {
+    retval[key] = errors[key] === undefined ? 'good' : undefined;
+  });
+  return retval;
+}
 
+function AddExpenseForm({ addExpense }: Args) {
   return (
     <div>
       <Form
         validateError={errorValidator}
+        validateSuccess={successValidator}
         onSubmit={({ name, amount, schedule, interest, interestSchedule }) => {
           let expense = new Expense(name, amount, schedule, interest, interestSchedule);
           addExpense(expense);
@@ -64,26 +66,21 @@ function AddExpenseForm({ addExpense }: Args) {
       >
         {formApi => (
           <form onSubmit={formApi.submitForm} id="addExpenseForm">
-            <div className="form-group">
+            <div className="form-group has-warning">
               <label htmlFor="name">Name</label>
-              <Text field="name" id="name" className="form-control" />
-              {maybeError(formApi, 'name')}
+              <StyledText field="name" id="name" className="form-control form-control-warning" />
               <label htmlFor="amount">Amount</label>
-              <Text field="amount" id="amount" className="form-control" />
-              {maybeError(formApi, 'amount')}
+              <StyledText field="amount" id="amount" className="form-control" />
               <label htmlFor="schedule">Schedule</label>
-              <Text field="schedule" id="schedule" className="form-control" />
-              {maybeError(formApi, 'schedule')}
+              <StyledText field="schedule" id="schedule" className="form-control" />
               <label htmlFor="interest">Interest</label>
-              <Text
+              <StyledText
                 field="interest"
                 id="interest"
                 className="form-control"
               />
-              {maybeError(formApi, 'interest')}
               <label htmlFor="interestSchedule">Interest Schedule</label>
-              <Text field="interestSchedule" id="interestSchedule" className="form-control" />
-              {maybeError(formApi, 'interestSchedule')}
+              <StyledText field="interestSchedule" id="interestSchedule" className="form-control" />
             </div>
             <button type="submit" className="mb-4 btn btn-primary">
               Submit

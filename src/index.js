@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import App from './components/App';
 import reducer from './reducers';
-import { setChecking } from './actions';
+import {setChecking} from './actions';
 import type { Action } from './actions';
 import type { State } from './reducers';
 

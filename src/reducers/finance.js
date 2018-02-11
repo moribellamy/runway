@@ -3,6 +3,7 @@
 
 import moment from 'moment';
 import type { Action } from '../actions';
+import later from 'later';
 
 function initData(): Array<Point> {
   let now = moment()
@@ -63,14 +64,13 @@ export class FinanceState {
   }
 }
 
-type Unit = 'year' | 'month' | 'day' | 'week';
-
 export class Expense {
   name: string;
   amount: number;
   schedule: string;
   interest: number;
   interestSchedule: string;
+  computed: any;  // XXX
 
   /**
    * @param name Human friendly name, e.g. "rent" or "groceries".
@@ -91,6 +91,10 @@ export class Expense {
     this.schedule = schedule;
     this.interest = interest;
     this.interestSchedule = interestSchedule;
+
+    // let parsed = later.parse.text(schedule);
+    // let computed = later.schedule(parsed);
+    // console.log(computed.next(100000));
   }
 }
 
