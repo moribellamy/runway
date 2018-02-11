@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0",
-    "later": "RickCarlino/later",
+    "later": "github:RickCarlino/later",
+    "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
