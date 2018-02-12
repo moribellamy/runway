@@ -42,10 +42,10 @@ function errorValidator({ name, amount, schedule, interest, interestSchedule }) 
 }
 
 // TODO this is ugly but leaving it out causes the form elements to jump around.
-function successValidator ( values, errors ) {
+function successValidator(values, errors) {
   let retval = {};
   Object.keys(errors).forEach(key => {
-    retval[key] = errors[key] === undefined ? 'good' : undefined;
+    retval[key] = errors[key] === undefined ? '' : undefined;
   });
   return retval;
 }
@@ -66,19 +66,17 @@ function AddExpenseForm({ addExpense }: Args) {
       >
         {formApi => (
           <form onSubmit={formApi.submitForm} id="addExpenseForm">
-            <div className="form-group has-warning">
-              <label htmlFor="name">Name</label>
-              <StyledText field="name" id="name" className="form-control form-control-warning" />
+            <div className="form-group">
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <StyledText field="name" id="name" className="form-control form-control-warning" />
+              </div>
               <label htmlFor="amount">Amount</label>
               <StyledText field="amount" id="amount" className="form-control" />
               <label htmlFor="schedule">Schedule</label>
               <StyledText field="schedule" id="schedule" className="form-control" />
               <label htmlFor="interest">Interest</label>
-              <StyledText
-                field="interest"
-                id="interest"
-                className="form-control"
-              />
+              <StyledText field="interest" id="interest" className="form-control" />
               <label htmlFor="interestSchedule">Interest Schedule</label>
               <StyledText field="interestSchedule" id="interestSchedule" className="form-control" />
             </div>

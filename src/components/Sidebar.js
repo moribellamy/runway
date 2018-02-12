@@ -66,7 +66,6 @@ function Sidebar({
           show modal
         </button>
       </div>
-      {JSON.stringify(assets)}
     </nav>
   );
 }
