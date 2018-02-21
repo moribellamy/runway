@@ -1,6 +1,8 @@
 # Runway Calculator
 
-A tool for figuring out when you might go broke.
+A tool for figuring out when you might go broke. It doesn't actually work.
+
+https://startuprunway.io is pretty good, even though it's not geared for personal use.
 
 ## Documentation
 
